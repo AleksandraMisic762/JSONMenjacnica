@@ -1,13 +1,13 @@
 package rs.ac.bg.fon.ai.menjacnica;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Transakcija {
 	private String izvornaValuta;
 	private String krajnjaValuta;
 	private double pocetniIznos;
 	private double konvertovaniIznos;
-	private Date datumTransakcije;
+	private LocalDate datumTransakcije;
 	
 	public String getIzvornaValuta() {
 		return izvornaValuta;
@@ -41,11 +41,11 @@ public class Transakcija {
 		this.konvertovaniIznos = konvertovaniIznos;
 	}
 	
-	public Date getDatumTransakcije() {
+	public LocalDate getDatumTransakcije() {
 		return datumTransakcije;
 	}
 	
-	public void setDatumTransakcije(Date datumTransakcije) {
+	public void setDatumTransakcije(LocalDate datumTransakcije) {
 		this.datumTransakcije = datumTransakcije;
 	}
 

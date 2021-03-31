@@ -1,0 +1,35 @@
+[
+  {
+    "izvornaValuta": "USD",
+    "krajnjaValuta": "CAD",
+    "pocetniIznos": 100.0,
+    "konvertovaniIznos": 0.0,
+    "datumTransakcije": {
+      "year": 2020,
+      "month": 6,
+      "day": 21
+    }
+  },
+  {
+    "izvornaValuta": "USD",
+    "krajnjaValuta": "CAD",
+    "pocetniIznos": 100.0,
+    "konvertovaniIznos": 0.0,
+    "datumTransakcije": {
+      "year": 2020,
+      "month": 6,
+      "day": 21
+    }
+  },
+  {
+    "izvornaValuta": "USD",
+    "krajnjaValuta": "CAD",
+    "pocetniIznos": 100.0,
+    "konvertovaniIznos": 0.0,
+    "datumTransakcije": {
+      "year": 2020,
+      "month": 6,
+      "day": 21
+    }
+  }
+]

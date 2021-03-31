@@ -13,24 +13,24 @@ import com.google.gson.JsonObject;
 
 import rs.ac.bg.fon.ai.menjacnica.Transakcija;
 
-public class Main1 {
-	
+public class Main2 {
+
 	private static final String BASE_URL = "http://api.currencylayer.com";
 	private static final String API_KEY = "2e4baadf5c5ae6ba436f53ae5558107f";
 
 	public static void main(String[] args) {
+		String valute = "EUR,CHF,CAD";
+
 		Transakcija t = new Transakcija();
-		
 		t.setIzvornaValuta("USD");
-		t.setKrajnjaValuta("CAD");
-		t.setPocetniIznos(3);
-		t.setDatumTransakcije(LocalDate.now());
-		
+		t.setPocetniIznos(100);
+		t.setDatumTransakcije(LocalDate.of(2020, 6, 21));
+
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
-			URL url = new URL(
-					BASE_URL + "/live?access_key=" + API_KEY + "&source=" + t.getIzvornaValuta() + "&currencies=" + t.getKrajnjaValuta());
+			URL url = new URL(BASE_URL + "/live?access_key=" + API_KEY + "&source=" + t.getIzvornaValuta()
+					+ "&currencies=" + valute + "&date=" + t.getDatumTransakcije());
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -42,18 +42,20 @@ public class Main1 {
 
 			System.out.println(res);
 			
-			if (res.get("success").getAsBoolean()) {
-				t.setKonvertovaniIznos(res.get("quotes").getAsJsonObject().get(t.getIzvornaValuta() + t.getKrajnjaValuta()).getAsDouble());
-			} else {
-				t.setKonvertovaniIznos(-1);
-			}
+			Transakcija[] transakcije = new Transakcija[3];
 
-			FileWriter file = new FileWriter("prva_transakcija.json");
-			
-			gson.toJson(t, file);
-			
+			FileWriter file = new FileWriter("ostale_transakcije.json");
+
+			for (int i = 0; i < 3; i++) {
+				t.setKrajnjaValuta(valute.split(",")[i]);
+				if (res.get("success").getAsBoolean()) {
+					t.setKonvertovaniIznos(res.get("quotes").getAsJsonObject()
+							.get(t.getIzvornaValuta() + valute.split(",")[i]).getAsDouble());
+				}
+				transakcije[i] = t;
+			}
+			gson.toJson(transakcije, file);
 			file.close();
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
