@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -16,21 +18,18 @@ import rs.ac.bg.fon.ai.menjacnica.Transakcija;
 public class Main2 {
 
 	private static final String BASE_URL = "http://api.currencylayer.com";
-	private static final String API_KEY = "2e4baadf5c5ae6ba436f53ae5558107f";
+	private static final String API_KEY = "a62c45a83931a42a56bd75d355483ba8";
+	private static final String SOURCE = "USD";
+	private static final String CURRENCIES = "EUR,CHF,CAD";
+	private static final LocalDate DATE = LocalDate.of(2020, 6, 21);
+	private static final double IZNOS = 100;
 
 	public static void main(String[] args) {
-		String valute = "EUR,CHF,CAD";
-
-		Transakcija t = new Transakcija();
-		t.setIzvornaValuta("USD");
-		t.setPocetniIznos(100);
-		t.setDatumTransakcije(LocalDate.of(2020, 6, 21));
-
 		try {
 			Gson gson = new GsonBuilder().setPrettyPrinting().serializeNulls().create();
 
-			URL url = new URL(BASE_URL + "/live?access_key=" + API_KEY + "&source=" + t.getIzvornaValuta()
-					+ "&currencies=" + valute + "&date=" + t.getDatumTransakcije());
+			URL url = new URL(BASE_URL + "/live?access_key=" + API_KEY + "&source=" + SOURCE
+					+ "&currencies=" + CURRENCIES + "&date=" + DATE);
 
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
@@ -42,17 +41,20 @@ public class Main2 {
 
 			System.out.println(res);
 			
-			Transakcija[] transakcije = new Transakcija[3];
+			List<Transakcija> transakcije = new ArrayList<Transakcija>();
 
 			FileWriter file = new FileWriter("ostale_transakcije.json");
 
 			for (int i = 0; i < 3; i++) {
-				t.setKrajnjaValuta(valute.split(",")[i]);
+				double kurs = -1;
+				
 				if (res.get("success").getAsBoolean()) {
-					t.setKonvertovaniIznos(res.get("quotes").getAsJsonObject()
-							.get(t.getIzvornaValuta() + valute.split(",")[i]).getAsDouble());
+					
+					kurs = res.get("quotes").getAsJsonObject()
+							.get(SOURCE + CURRENCIES.split(",")[i]).getAsDouble();
+					
 				}
-				transakcije[i] = t;
+				transakcije.add(new Transakcija(SOURCE, CURRENCIES.split(",")[i], IZNOS, IZNOS * kurs, DATE));
 			}
 			gson.toJson(transakcije, file);
 			file.close();

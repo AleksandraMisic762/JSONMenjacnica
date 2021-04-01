@@ -9,6 +9,21 @@ public class Transakcija {
 	private double konvertovaniIznos;
 	private LocalDate datumTransakcije;
 	
+	
+	public Transakcija() {
+		super();
+	}
+
+	public Transakcija(String izvornaValuta, String krajnjaValuta, double pocetniIznos, double konvertovaniIznos,
+			LocalDate datumTransakcije) {
+		super();
+		this.izvornaValuta = izvornaValuta;
+		this.krajnjaValuta = krajnjaValuta;
+		this.pocetniIznos = pocetniIznos;
+		this.konvertovaniIznos = konvertovaniIznos;
+		this.datumTransakcije = datumTransakcije;
+	}
+
 	public String getIzvornaValuta() {
 		return izvornaValuta;
 	}

@@ -2,10 +2,10 @@
   "izvornaValuta": "USD",
   "krajnjaValuta": "CAD",
   "pocetniIznos": 3.0,
-  "konvertovaniIznos": -1.0,
+  "konvertovaniIznos": 3.774795,
   "datumTransakcije": {
     "year": 2021,
-    "month": 3,
-    "day": 31
+    "month": 4,
+    "day": 1
   }
 }
